@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
+  audioplayers: ^0.13.2
 
 dev_dependencies:
   flutter_test:
@@ -17,9 +18,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+   - assets/music/Lav_-_standing_on_the_edge.mp3
   # fonts:
   #   - family: Schyler
   #     fonts:
