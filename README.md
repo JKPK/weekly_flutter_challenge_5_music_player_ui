@@ -10,4 +10,4 @@ This challenge is about recreating Kazi Mohammed Erfan's [Music Player UI design
 2. [Duration](https://api.flutter.dev/flutter/dart-core/Duration-class.html) class.
 
 ## Original design
-[![Original design](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/original_design.gif?raw=true)](https://www.uplabs.com/posts/free-music-player-ui)
+[![Original design](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/original_design.png?raw=true)](https://www.uplabs.com/posts/free-music-player-ui)
