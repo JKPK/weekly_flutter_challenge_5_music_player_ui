@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "Ubuntu",
+      ),
       title: "Weekly Flutter Challenge 5",
       debugShowCheckedModeBanner: false,
       home: PlayerPage(),
