@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../styleguide.dart';
 import '../providers/player_provider.dart';
 import '../widgets/player_recent_playlist.dart';
+import '../widgets/player_current_song.dart';
 
 typedef void OnError(Exception exception);
 
@@ -20,11 +21,8 @@ class PlayerPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height * .7,
-              child: null,
-            ),
-            PlayerRecentPlaylist()
+            PlayerCurrentSong(),
+            PlayerRecentPlaylist(),
           ],
         ),
       ),

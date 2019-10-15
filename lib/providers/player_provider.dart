@@ -24,7 +24,7 @@ class PlayerProvider extends ChangeNotifier {
       'cover': 'playlist_image_2.jpg',
     },
     {
-      'title': 'I Used to Think.mp3',
+      'title': 'I Used to Think',
       'artist': 'Loveshadow',
       'file': 'Loveshadow_-_I_Used_to_Think.mp3',
       'cover': 'playlist_image_3.jpg',
