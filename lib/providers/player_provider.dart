@@ -9,6 +9,27 @@ class PlayerProvider extends ChangeNotifier {
   AudioPlayerState _audioPlayerState;
   Duration _duration = Duration();
   Duration _position = Duration();
+  int _songId;
+  List<Map<String, String>> _songsData = [
+    {
+      'title': 'Standing on the edge',
+      'artist': 'Lav',
+      'file': 'Lav_-_standing_on_the_edge.mp3',
+      'cover': 'playlist_image_1.jpg',
+    },
+    {
+      'title': 'Hachiko (The Faithtful Dog)',
+      'artist': 'The Kyoto',
+      'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
+      'cover': 'playlist_image_2.jpg',
+    },
+    {
+      'title': 'I Used to Think.mp3',
+      'artist': 'Loveshadow',
+      'file': 'Loveshadow_-_I_Used_to_Think.mp3',
+      'cover': 'playlist_image_3.jpg',
+    },
+  ];
 
   AudioCache get audioCache => _audioCache;
 
@@ -19,6 +40,15 @@ class PlayerProvider extends ChangeNotifier {
   Duration get duration => _duration;
 
   Duration get position => _position;
+
+  Map<String, String> geSongData([songId]) {
+    return _songsData[songId ?? _songId];
+  }
+
+  void play(songId) {
+    _songId = songId;
+    audioCache.play(_songsData[songId]['file']);
+  }
 
   PlayerProvider() {
     _audioPlayer = AudioPlayer();

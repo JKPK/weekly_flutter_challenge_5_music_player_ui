@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../styleguide.dart';
+import '../providers/player_provider.dart';
 
 class PlayerRecentPlaylist extends StatelessWidget {
   @override
@@ -28,23 +30,24 @@ class PlayerRecentPlaylist extends StatelessWidget {
               thickness: 2,
               height: 25,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                RecentPlaylistTile(
-                  "playlist_image_1.jpg",
-                  "Sad But True",
-                ),
-                RecentPlaylistTile(
-                  "playlist_image_2.jpg",
-                  "A Thousand Ye...",
-                ),
-                RecentPlaylistTile(
-                  "playlist_image_3.jpg",
-                  "Tumi Kothay Ac...",
-                ),
-              ],
-            )
+            Consumer<PlayerProvider>(
+              builder: (context, notifier, child) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    RecentPlaylistTile(
+                      0,
+                    ),
+                    RecentPlaylistTile(
+                      1,
+                    ),
+                    RecentPlaylistTile(
+                      2,
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -53,66 +56,71 @@ class PlayerRecentPlaylist extends StatelessWidget {
 }
 
 class RecentPlaylistTile extends StatelessWidget {
-  final String _image;
-  final String _title;
+  final int _songId;
 
   RecentPlaylistTile(
-    this._image,
-    this._title,
+    this._songId,
   );
 
   @override
   Widget build(BuildContext context) {
+    final Map<String,String> songData = Provider.of<PlayerProvider>(context, listen: false).geSongData(_songId);
+
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 3),
-        decoration: BoxDecoration(
-            color: Colors.white,
+      child: GestureDetector(
+        onTap: () {
+          Provider.of<PlayerProvider>(context, listen: false).play(_songId);
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 3),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: borderColor,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 2,
+                  color: Colors.black.withOpacity(0.15),
+                  offset: Offset(0, 1),
+                )
+              ]),
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: borderColor,
-            ),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 2,
-                color: Colors.black.withOpacity(0.15),
-                offset: Offset(0, 1),
-              )
-            ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image(
-                image: AssetImage("assets/images/$_image"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 8,
-                  right: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image(
+                  image: AssetImage("assets/images/${songData['cover']}"),
                 ),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      "$_title",
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: textDarkColor,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                    left: 8,
+                    right: 0,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "${songData['title'].substring(0,14)} ...",
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: textDarkColor,
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.more_vert,
-                      size: 15,
-                    ),
-                  ],
+                      Spacer(),
+                      Icon(
+                        Icons.more_vert,
+                        size: 15,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

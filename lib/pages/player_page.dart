@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../styleguide.dart';
+import '../providers/player_provider.dart';
 import '../widgets/player_recent_playlist.dart';
 
 typedef void OnError(Exception exception);
@@ -13,15 +15,18 @@ class PlayerPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundDarkColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * .7,
-            child: null,
-          ),
-          PlayerRecentPlaylist()
-        ],
+      body: ChangeNotifierProvider(
+        builder: (context) => PlayerProvider(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * .7,
+              child: null,
+            ),
+            PlayerRecentPlaylist()
+          ],
+        ),
       ),
     );
 

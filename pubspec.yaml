@@ -21,6 +21,8 @@ flutter:
   uses-material-design: true
   assets:
    - assets/music/Lav_-_standing_on_the_edge.mp3
+   - assets/music/The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3
+   - assets/music/Loveshadow_-_I_Used_to_Think.mp3
    - assets/images/playlist_image_1.jpg
    - assets/images/playlist_image_2.jpg
    - assets/images/playlist_image_3.jpg
