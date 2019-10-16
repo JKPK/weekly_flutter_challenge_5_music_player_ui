@@ -61,7 +61,7 @@ class PlayerProvider extends ChangeNotifier {
 
   String getPositionFormatted() {
     String twoDigitSeconds =
-        _position.inSeconds.remainder(Duration.secondsPerMinute) > 10
+        _position.inSeconds.remainder(Duration.secondsPerMinute) >= 10
             ? "${_position.inSeconds.remainder(Duration.secondsPerMinute)}"
             : "0${_position.inSeconds.remainder(Duration.secondsPerMinute)}";
     if (_audioPlayerState == AudioPlayerState.PLAYING ||
@@ -73,7 +73,7 @@ class PlayerProvider extends ChangeNotifier {
 
   String getDurationFormatted() {
     String twoDigitSeconds =
-        _duration.inSeconds.remainder(Duration.secondsPerMinute) > 10
+        _duration.inSeconds.remainder(Duration.secondsPerMinute) >= 10
             ? "${_duration.inSeconds.remainder(Duration.secondsPerMinute)}"
             : "0${_duration.inSeconds.remainder(Duration.secondsPerMinute)}";
     if (_audioPlayerState == AudioPlayerState.PLAYING ||
