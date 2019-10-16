@@ -12,46 +12,79 @@ class SongSeekbarCircle extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      child: CustomPaint(
-        painter: SeekbarPainter(),
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.height * .075,
-            height: MediaQuery.of(context).size.height * .075,
-            decoration: BoxDecoration(
-              color: Color(0xFFfbbb8a),
-              gradient: RadialGradient(
-                colors: [
-                  Color(0xFFffd390),
-                  Color(0xFFfbbb8a),
-                ],
-                center: Alignment(-0.2, -0.2),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black54,
-                  blurRadius: 10,
-                ),
-              ],
-              shape: BoxShape.circle,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                if (Provider.of<PlayerProvider>(context, listen: false)
-                    .isPlaying) {
-                  Provider.of<PlayerProvider>(context, listen: false).pause();
-                } else {
-                  Provider.of<PlayerProvider>(context, listen: false).play();
-                }
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * .01,
+            child: Consumer<PlayerProvider>(
+              builder: (context, notifier, child) {
+                return Text(
+                  notifier.getPositionFormatted(),
+                  style: TextStyle(
+                    color: textLightColor,
+                  ),
+                );
               },
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * .01,
+            right: 0,
+            child: Consumer<PlayerProvider>(
+              builder: (context, notifier, child) {
+                return Text(
+                  notifier.getDurationFormatted(),
+                  style: TextStyle(
+                    color: textLightColor,
+                  ),
+                );
+              },
+            ),
+          ),
+          CustomPaint(
+            painter: SeekbarPainter(),
+            child: Center(
               child: Container(
-                child: Center(
-                  child: PlayPauseButton(),
+                width: MediaQuery.of(context).size.height * .075,
+                height: MediaQuery.of(context).size.height * .075,
+                decoration: BoxDecoration(
+                  color: Color(0xFFfbbb8a),
+                  gradient: RadialGradient(
+                    colors: [
+                      Color(0xFFffd390),
+                      Color(0xFFfbbb8a),
+                    ],
+                    center: Alignment(-0.2, -0.2),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 10,
+                    ),
+                  ],
+                  shape: BoxShape.circle,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    if (Provider.of<PlayerProvider>(context, listen: false)
+                        .isPlaying) {
+                      Provider.of<PlayerProvider>(context, listen: false)
+                          .pause();
+                    } else {
+                      Provider.of<PlayerProvider>(context, listen: false)
+                          .play();
+                    }
+                  },
+                  child: Container(
+                    child: Center(
+                      child: PlayPauseButton(),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

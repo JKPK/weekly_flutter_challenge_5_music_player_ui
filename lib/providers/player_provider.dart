@@ -9,7 +9,7 @@ class PlayerProvider extends ChangeNotifier {
   AudioPlayerState _audioPlayerState;
   Duration _duration = Duration();
   Duration _position = Duration();
-  int _songId;
+  int _songId = 0;
   List<Map<String, String>> _songsData = [
     {
       'title': 'Standing on the edge',
@@ -42,6 +42,46 @@ class PlayerProvider extends ChangeNotifier {
   Duration get position => _position;
 
   bool get isPlaying => _audioPlayerState == AudioPlayerState.PLAYING;
+
+  String getArtist() {
+    if (_audioPlayerState == AudioPlayerState.PLAYING ||
+        _audioPlayerState == AudioPlayerState.PAUSED) {
+      return _songsData[_songId]['artist'];
+    }
+    return "";
+  }
+
+  String getTitle() {
+    if (_audioPlayerState == AudioPlayerState.PLAYING ||
+        _audioPlayerState == AudioPlayerState.PAUSED) {
+      return _songsData[_songId]['title'];
+    }
+    return "";
+  }
+
+  String getPositionFormatted() {
+    String twoDigitSeconds =
+        _position.inSeconds.remainder(Duration.secondsPerMinute) > 10
+            ? "${_position.inSeconds.remainder(Duration.secondsPerMinute)}"
+            : "0${_position.inSeconds.remainder(Duration.secondsPerMinute)}";
+    if (_audioPlayerState == AudioPlayerState.PLAYING ||
+        _audioPlayerState == AudioPlayerState.PAUSED) {
+      return "${_position.inMinutes}:$twoDigitSeconds";
+    }
+    return "";
+  }
+
+  String getDurationFormatted() {
+    String twoDigitSeconds =
+        _duration.inSeconds.remainder(Duration.secondsPerMinute) > 10
+            ? "${_duration.inSeconds.remainder(Duration.secondsPerMinute)}"
+            : "0${_duration.inSeconds.remainder(Duration.secondsPerMinute)}";
+    if (_audioPlayerState == AudioPlayerState.PLAYING ||
+        _audioPlayerState == AudioPlayerState.PAUSED) {
+      return "${_duration.inMinutes}:$twoDigitSeconds";
+    }
+    return "";
+  }
 
   Map<String, String> getSongData([songId]) {
     return _songsData[songId ?? _songId];

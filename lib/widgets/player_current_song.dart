@@ -14,12 +14,9 @@ class PlayerCurrentSong extends StatelessWidget {
         children: <Widget>[
           AppTitle(),
           SongHeader(
-            "Love Me Like You Do",
-            "Ellie Goulding",
-            Duration(
-              minutes: 4,
-              seconds: 32,
-            ),
+            Provider.of<PlayerProvider>(context).getTitle(),
+            Provider.of<PlayerProvider>(context).getArtist(),
+            Provider.of<PlayerProvider>(context).getDurationFormatted(),
           ),
           Container(
             height: MediaQuery.of(context).size.width * .5,
@@ -77,7 +74,7 @@ class AppTitle extends StatelessWidget {
 class SongHeader extends StatelessWidget {
   final String _title;
   final String _artist;
-  final Duration _duration;
+  final String _duration;
 
   SongHeader(
     this._title,
@@ -87,11 +84,6 @@ class SongHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String twoDigitSeconds =
-        _duration.inSeconds.remainder(Duration.secondsPerMinute) > 10
-            ? "${_duration.inSeconds.remainder(Duration.secondsPerMinute)}"
-            : "0${_duration.inSeconds.remainder(Duration.secondsPerMinute)}";
-
     return Container(
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).size.height * .15,
@@ -118,7 +110,7 @@ class SongHeader extends StatelessWidget {
                   color: textLightColor,
                 ),
               ),
-              Container(
+              _duration.length>0?Container(
                 margin: EdgeInsets.symmetric(
                   horizontal: 12,
                 ),
@@ -128,9 +120,9 @@ class SongHeader extends StatelessWidget {
                 ),
                 width: 4.0,
                 height: 4.0,
-              ),
+              ):Container(),
               Text(
-                "${_duration.inMinutes}:$twoDigitSeconds",
+                "$_duration",
                 style: TextStyle(
                   fontWeight: FontWeight.w100,
                   color: textLightColor,
