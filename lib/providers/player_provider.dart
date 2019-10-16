@@ -41,13 +41,19 @@ class PlayerProvider extends ChangeNotifier {
 
   Duration get position => _position;
 
-  Map<String, String> geSongData([songId]) {
+  bool get isPlaying => _audioPlayerState == AudioPlayerState.PLAYING;
+
+  Map<String, String> getSongData([songId]) {
     return _songsData[songId ?? _songId];
   }
 
-  void play(songId) {
-    _songId = songId;
-    audioCache.play(_songsData[songId]['file']);
+  void play([songId]) {
+    _songId = songId ?? _songId ?? 0;
+    audioCache.play(_songsData[_songId]['file']);
+  }
+
+  void pause() {
+    audioPlayer.pause();
   }
 
   PlayerProvider() {

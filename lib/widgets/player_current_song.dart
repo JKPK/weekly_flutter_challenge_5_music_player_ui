@@ -198,10 +198,10 @@ class CornerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = songId != null
-        ? Provider.of<PlayerProvider>(context).geSongData(songId)['title']
+        ? Provider.of<PlayerProvider>(context).getSongData(songId)['title']
         : null;
     String artist = songId != null
-        ? Provider.of<PlayerProvider>(context).geSongData(songId)['artist']
+        ? Provider.of<PlayerProvider>(context).getSongData(songId)['artist']
         : null;
 
     return Positioned(

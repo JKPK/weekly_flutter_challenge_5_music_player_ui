@@ -64,7 +64,9 @@ class RecentPlaylistTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String,String> songData = Provider.of<PlayerProvider>(context, listen: false).geSongData(_songId);
+    final Map<String, String> songData =
+        Provider.of<PlayerProvider>(context, listen: false)
+            .getSongData(_songId);
 
     return Expanded(
       child: GestureDetector(
@@ -104,7 +106,7 @@ class RecentPlaylistTile extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        "${songData['title'].substring(0,14)} ...",
+                        "${songData['title'].substring(0, 14)} ...",
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
