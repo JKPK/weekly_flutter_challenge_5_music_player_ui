@@ -9,6 +9,17 @@ import '../providers/player_provider.dart';
 class SongSeekbarCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double progress = Provider.of<PlayerProvider>(context, listen: false)
+            .position
+            .inMilliseconds /
+        Provider.of<PlayerProvider>(context, listen: false)
+            .duration
+            .inMilliseconds;
+
+    if (progress.isNaN) {
+      progress = 0.0;
+    }
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -42,7 +53,7 @@ class SongSeekbarCircle extends StatelessWidget {
             ),
           ),
           CustomPaint(
-            painter: SeekbarPainter(),
+            painter: SeekbarPainter(progress),
             child: Center(
               child: Container(
                 width: MediaQuery.of(context).size.height * .075,
@@ -130,14 +141,26 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 }
 
 class SeekbarPainter extends CustomPainter {
-  double radius;
   final double margin = .03;
+  final double progressPercent;
+  double radius;
+  Rect mainRect;
+
+  SeekbarPainter(this.progressPercent);
 
   void paint(Canvas canvas, Size size) {
     radius = math.min(size.width, size.height) / 2;
 
+    mainRect = Rect.fromLTRB(
+      radius * 2 * margin,
+      radius * 2 * margin,
+      radius * 2 * (1 - margin),
+      radius * 2 * (1 - margin),
+    );
+
     paintBackground(canvas, size);
     paintOuterLine(canvas, size);
+    paintProgressArc(canvas, size);
   }
 
   void paintOuterLine(Canvas canvas, Size size) {
@@ -148,12 +171,7 @@ class SeekbarPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     canvas.drawArc(
-      Rect.fromLTRB(
-        radius * 2 * margin,
-        radius * 2 * margin,
-        radius * 2 * (1 - margin),
-        radius * 2 * (1 - margin),
-      ),
+      mainRect,
       math.pi * .75,
       math.pi * 1.5,
       false,
@@ -162,23 +180,127 @@ class SeekbarPainter extends CustomPainter {
 
     paint.style = PaintingStyle.fill;
     canvas.drawCircle(
-        Offset(
-          size.width * (1 - margin * 5.6),
-          size.width * (1 - margin * 5.6),
-        ),
-        2,
-        paint);
+      Offset(
+        size.width * (1 - margin * 5.6),
+        size.width * (1 - margin * 5.6),
+      ),
+      2,
+      paint,
+    );
     canvas.drawCircle(
-        Offset(
-          size.width * (margin * 5.6),
-          size.width * (1 - margin * 5.6),
-        ),
-        2,
-        paint);
+      Offset(
+        size.width * (margin * 5.6),
+        size.width * (1 - margin * 5.6),
+      ),
+      2,
+      paint,
+    );
+  }
+
+  void paintProgressArc(Canvas canvas, Size size) {
+    if (progressPercent == double.nan) {
+      return;
+    }
+
+    double filledArcAngle = math.pi * 1.5 * progressPercent;
+    if (filledArcAngle > math.pi * .25) {
+      filledArcAngle = math.pi * .25;
+    }
+
+    double progressBallPosX = size.width / 2 +
+        (radius - 100 * margin * 2) *
+            math.cos(math.pi * .7501 + math.pi * 1.5 * progressPercent);
+    double progressBallPosY = size.width / 2 +
+        (radius - 100 * margin * 2) *
+            math.sin(math.pi * .7501 + math.pi * 1.5 * progressPercent);
+
+    final Gradient gradientProgressBar = new SweepGradient(
+      center: Alignment.center,
+      colors: [
+        Color(0xFFEF787D),
+        Color(0xFFFFD08E),
+      ],
+      startAngle: math.pi * .25,
+      endAngle: math.pi * .2501 + math.pi * 1.5 * progressPercent,
+    );
+
+    final Paint paintProgressBar = Paint()
+      ..shader = gradientProgressBar.createShader(mainRect)
+      ..isAntiAlias = true
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    final Gradient gradientFilledArc = new SweepGradient(
+      center: Alignment.center,
+      colors: [
+        Colors.transparent,
+        Color(0xFFFFD08E).withOpacity(.3),
+      ],
+      startAngle:
+          math.pi * .25 + math.pi * 1.5 * progressPercent - filledArcAngle,
+      endAngle: math.pi * .2501 + math.pi * 1.5 * progressPercent,
+    );
+
+    final Paint paintFilledArc = Paint()
+      ..shader = gradientFilledArc.createShader(mainRect)
+      ..isAntiAlias = true;
+
+    final Paint paintBallShadow = Paint()
+      ..isAntiAlias = true
+      ..color = Colors.black26
+      ..style = PaintingStyle.fill;
+
+    final Paint paintBall = Paint()
+      ..isAntiAlias = true
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    /* Rotate canvas by 90 degrees to generate gradient with good tiling */
+    canvas.save();
+    canvas.rotate(math.pi / 2);
+    canvas.translate(0, -size.width);
+    /* Draw filled arc */
+    canvas.drawArc(
+      mainRect,
+      math.pi * .25 + math.pi * 1.5 * progressPercent - filledArcAngle,
+      filledArcAngle,
+      true,
+      paintFilledArc,
+    );
+    /* Draw progress bar */
+    canvas.drawArc(
+      mainRect,
+      math.pi * .25,
+      math.pi * 1.5 * progressPercent,
+      false,
+      paintProgressBar,
+    );
+    canvas.restore();
+
+    /* Draw progress ball shadow */
+    canvas.drawCircle(
+      Offset(
+        progressBallPosX,
+        progressBallPosY,
+      ),
+      9,
+      paintBallShadow,
+    );
+
+    /* Draw white progress ball */
+    canvas.drawCircle(
+      Offset(
+        progressBallPosX,
+        progressBallPosY,
+      ),
+      7.5,
+      paintBall,
+    );
   }
 
   void paintBackground(Canvas canvas, Size size) {
-    final Paint paint = Paint()..color = textLightColor.withOpacity(0.1);
+    final Paint paint = Paint()..color = textLightColor.withOpacity(0.075);
 
     canvas.drawCircle(
       Offset(radius, radius),
@@ -188,6 +310,6 @@ class SeekbarPainter extends CustomPainter {
   }
 
   bool shouldRepaint(SeekbarPainter oldDelegate) {
-    return true;
+    return false;
   }
 }
