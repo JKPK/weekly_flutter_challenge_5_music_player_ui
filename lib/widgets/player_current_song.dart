@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weekly_flutter_challenge_5_music_player_ui/widgets/player_visualizer.dart';
 
 import '../styleguide.dart';
 import '../providers/player_provider.dart';
@@ -18,6 +19,7 @@ class PlayerCurrentSong extends StatelessWidget {
             Provider.of<PlayerProvider>(context).getArtist(),
             Provider.of<PlayerProvider>(context).getDurationFormatted(),
           ),
+          PlayerVisualizer(),
           Container(
             height: MediaQuery.of(context).size.width * .5,
             margin: EdgeInsets.only(
