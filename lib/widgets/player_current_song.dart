@@ -17,8 +17,9 @@ class PlayerCurrentSong extends StatelessWidget {
           AppTitle(),
           SongHeader(
             Provider.of<PlayerProvider>(context).getTitle(),
-            Provider.of<PlayerProvider>(context).getArtist(),
-            Provider.of<PlayerProvider>(context).getDurationFormatted(),
+            Provider.of<PlayerProvider>(context, listen: false).getArtist(),
+            Provider.of<PlayerProvider>(context, listen: false)
+                .getDurationFormatted(),
           ),
           PlayerVisualizer(),
           Container(
@@ -42,12 +43,12 @@ class PlayerCurrentSong extends StatelessWidget {
           CornerButton(
             icon: Icons.fast_rewind,
             corner: CornerPositions.bottomLeft,
-            songId: 0,
+            songId: Provider.of<PlayerProvider>(context).songId == 2 ? 1 : 0,
           ),
           CornerButton(
             icon: Icons.fast_forward,
             corner: CornerPositions.bottomRight,
-            songId: 2,
+            songId: Provider.of<PlayerProvider>(context).songId == 0 ? 1 : 2,
           ),
         ],
       ),
@@ -190,16 +191,24 @@ class CornerButton extends StatelessWidget {
   final CornerPositions corner;
   final int songId;
 
-  CornerButton({this.icon, this.corner, this.songId});
+  CornerButton({
+    this.icon,
+    this.corner,
+    this.songId,
+  });
 
   @override
   Widget build(BuildContext context) {
+    int currentSongId = Provider.of<PlayerProvider>(context).songId;
     String title = songId != null
         ? Provider.of<PlayerProvider>(context).getSongData(songId)['title']
         : null;
     String artist = songId != null
         ? Provider.of<PlayerProvider>(context).getSongData(songId)['artist']
         : null;
+    bool hideElement =
+        ((corner == CornerPositions.bottomLeft && currentSongId < 1) ||
+            (corner == CornerPositions.bottomRight && currentSongId > 1));
 
     return Positioned(
       top: (corner == CornerPositions.topLeft ||
@@ -218,43 +227,55 @@ class CornerButton extends StatelessWidget {
               corner == CornerPositions.bottomRight)
           ? 20
           : null,
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            corner == CornerPositions.bottomRight
-                ? CornerButtonLabel(
-                    artist: artist,
-                    title: title,
-                    corner: corner,
-                  )
-                : Container(
-                    child: null,
+      child: AnimatedOpacity(
+        opacity: hideElement ? 0 : 1,
+        duration: Duration(milliseconds: 250),
+        child: GestureDetector(
+          onTap: () {
+            if (corner == CornerPositions.bottomRight ||
+                corner == CornerPositions.bottomLeft) {
+              Provider.of<PlayerProvider>(context, listen: false).play(songId);
+            }
+          },
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                corner == CornerPositions.bottomRight
+                    ? CornerButtonLabel(
+                        artist: artist,
+                        title: title,
+                        corner: corner,
+                      )
+                    : Container(
+                        child: null,
+                      ),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.1),
                   ),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.1),
-              ),
-              width: 35.0,
-              height: 35.0,
-              child: Center(
-                child: Icon(
-                  icon,
-                  size: 24,
-                  color: Colors.white.withOpacity(0.4),
+                  width: 35.0,
+                  height: 35.0,
+                  child: Center(
+                    child: Icon(
+                      icon,
+                      size: 24,
+                      color: Colors.white.withOpacity(0.4),
+                    ),
+                  ),
                 ),
-              ),
+                corner == CornerPositions.bottomLeft
+                    ? CornerButtonLabel(
+                        artist: artist,
+                        title: title,
+                        corner: corner,
+                      )
+                    : Container(
+                        child: null,
+                      ),
+              ],
             ),
-            corner == CornerPositions.bottomLeft
-                ? CornerButtonLabel(
-                    artist: artist,
-                    title: title,
-                    corner: corner,
-                  )
-                : Container(
-                    child: null,
-                  ),
-          ],
+          ),
         ),
       ),
     );
@@ -313,14 +334,14 @@ class BackgroundSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(MediaQuery.of(context).size.width/3),
+      margin: EdgeInsets.all(MediaQuery.of(context).size.width / 3),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
             color: splashColor,
-            spreadRadius: MediaQuery.of(context).size.width/4,
-            blurRadius: MediaQuery.of(context).size.width/4,
+            spreadRadius: MediaQuery.of(context).size.width / 4,
+            blurRadius: MediaQuery.of(context).size.width / 4,
           )
         ],
       ),

@@ -43,6 +43,8 @@ class PlayerProvider extends ChangeNotifier {
 
   bool get isPlaying => _audioPlayerState == AudioPlayerState.PLAYING;
 
+  int get songId => _songId;
+
   String getArtist() {
     if (_audioPlayerState == AudioPlayerState.PLAYING ||
         _audioPlayerState == AudioPlayerState.PAUSED) {
