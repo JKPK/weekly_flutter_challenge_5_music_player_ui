@@ -98,6 +98,10 @@ class PlayerProvider extends ChangeNotifier {
     audioPlayer.pause();
   }
 
+  void seekSecond(int seconds) {
+    audioPlayer.seek(Duration(seconds: seconds));
+  }
+
   PlayerProvider() {
     _audioPlayer = AudioPlayer();
 

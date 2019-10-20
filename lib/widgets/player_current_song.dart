@@ -147,7 +147,7 @@ class CurrentSongButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * .25 +
+        top: MediaQuery.of(context).size.height * .24 +
             MediaQuery.of(context).size.width * .5,
       ),
       child: Container(
@@ -158,26 +158,40 @@ class CurrentSongButtons extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              Icons.replay,
-              color: textLightColor.withOpacity(.8),
-              size: 32,
+            IconButton(
+              onPressed: () {
+                Provider.of<PlayerProvider>(context).seekSecond(0);
+              },
+              icon: Icon(
+                Icons.replay,
+                color: textLightColor.withOpacity(.8),
+              ),
+              padding: EdgeInsets.all(0),
+              iconSize: 32,
             ),
             SizedBox(
-              width: 20,
+              width: 10,
             ),
-            Icon(
-              Icons.favorite_border,
-              color: textLightColor.withOpacity(.8),
-              size: 32,
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.favorite_border,
+                color: textLightColor.withOpacity(.8),
+              ),
+              padding: EdgeInsets.all(0),
+              iconSize: 32,
             ),
             SizedBox(
-              width: 20,
+              width: 10,
             ),
-            Icon(
-              Icons.share,
-              color: textLightColor.withOpacity(.8),
-              size: 32,
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.share,
+                color: textLightColor.withOpacity(.8),
+              ),
+              padding: EdgeInsets.all(0),
+              iconSize: 32,
             ),
           ],
         ),
