@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weekly_flutter_challenge_5_music_player_ui/widgets/player_visualizer.dart';
 
 import '../styleguide.dart';
 import '../providers/player_provider.dart';
 import '../widgets/song_seekbar_circle.dart';
+import '../widgets/player_visualizer.dart';
 
 class PlayerCurrentSong extends StatelessWidget {
   @override
@@ -13,6 +13,7 @@ class PlayerCurrentSong extends StatelessWidget {
       height: MediaQuery.of(context).size.height * .7,
       child: Stack(
         children: <Widget>[
+          BackgroundSplash(),
           AppTitle(),
           SongHeader(
             Provider.of<PlayerProvider>(context).getTitle(),
@@ -112,17 +113,19 @@ class SongHeader extends StatelessWidget {
                   color: textLightColor,
                 ),
               ),
-              _duration.length>0?Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: textLightColor,
-                  shape: BoxShape.circle,
-                ),
-                width: 4.0,
-                height: 4.0,
-              ):Container(),
+              _duration.length > 0
+                  ? Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: textLightColor,
+                        shape: BoxShape.circle,
+                      ),
+                      width: 4.0,
+                      height: 4.0,
+                    )
+                  : Container(),
               Text(
                 "$_duration",
                 style: TextStyle(
@@ -209,11 +212,11 @@ class CornerButton extends StatelessWidget {
           : null,
       left: (corner == CornerPositions.topLeft ||
               corner == CornerPositions.bottomLeft)
-          ? 30
+          ? 20
           : null,
       right: (corner == CornerPositions.topRight ||
               corner == CornerPositions.bottomRight)
-          ? 30
+          ? 20
           : null,
       child: Container(
         child: Row(
@@ -302,6 +305,26 @@ class CornerButtonLabel extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BackgroundSplash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(MediaQuery.of(context).size.width/3),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: splashColor,
+            spreadRadius: MediaQuery.of(context).size.width/4,
+            blurRadius: MediaQuery.of(context).size.width/4,
+          )
+        ],
+      ),
+      child: null,
     );
   }
 }
