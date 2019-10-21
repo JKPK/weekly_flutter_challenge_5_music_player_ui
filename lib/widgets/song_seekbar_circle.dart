@@ -6,10 +6,46 @@ import 'package:provider/provider.dart';
 import '../styleguide.dart';
 import '../providers/player_provider.dart';
 
-class SongSeekbarCircle extends StatelessWidget {
+class SongSeekbarCircle extends StatefulWidget {
+  @override
+  _SongSeekbarCircleState createState() => _SongSeekbarCircleState();
+}
+
+class _SongSeekbarCircleState extends State<SongSeekbarCircle> {
+  Offset manualSeekPosition = Offset(0, 0);
+  bool isPanActive = false;
+  double progress;
+  double manualProgress;
+
+  void setSeekbar(Offset localPosition) {
+    manualSeekPosition = Offset(
+      -MediaQuery.of(context).size.height * .25 * .5 + localPosition.dx,
+      MediaQuery.of(context).size.height * .25 * .5 - localPosition.dy,
+    );
+
+    manualProgress = calculateSeekbarPosition();
+    setState(() {
+      isPanActive = true;
+    });
+  }
+
+  double calculateSeekbarPosition() {
+    double angle = math.atan2(-manualSeekPosition.dy, manualSeekPosition.dx);
+    if (angle < math.pi * .5) {
+      /* correct negative half */
+      angle += 2 * math.pi;
+    } else if (angle < math.pi * .75) {
+      /* correct so that seekbar is at beginning */
+      angle = math.pi * .75;
+    }
+    /* compensate for rotation */
+    angle -= math.pi * .75;
+    return math.min(angle / (math.pi * 1.5), 1);
+  }
+
   @override
   Widget build(BuildContext context) {
-    double progress = Provider.of<PlayerProvider>(context, listen: false)
+    progress = Provider.of<PlayerProvider>(context, listen: false)
             .position
             .inMilliseconds /
         Provider.of<PlayerProvider>(context, listen: false)
@@ -24,79 +60,106 @@ class SongSeekbarCircle extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.height * .25,
         height: MediaQuery.of(context).size.height * .25,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .01,
-              child: Consumer<PlayerProvider>(
-                builder: (context, notifier, child) {
-                  return Text(
-                    notifier.getPositionFormatted(),
-                    style: TextStyle(
-                      color: textLightColor,
-                    ),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * .01,
-              right: 0,
-              child: Consumer<PlayerProvider>(
-                builder: (context, notifier, child) {
-                  return Text(
-                    notifier.getDurationFormatted(),
-                    style: TextStyle(
-                      color: textLightColor,
-                    ),
-                  );
-                },
-              ),
-            ),
-            CustomPaint(
-              painter: SeekbarPainter(progress),
-              child: Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.height * .075,
-                  height: MediaQuery.of(context).size.height * .075,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFfbbb8a),
-                    gradient: RadialGradient(
-                      colors: [
-                        Color(0xFFffd390),
-                        Color(0xFFfbbb8a),
-                      ],
-                      center: Alignment(-0.2, -0.2),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black54,
-                        blurRadius: 10,
+        child: GestureDetector(
+          onPanStart: (dragStartPosition) {
+            setSeekbar(dragStartPosition.localPosition);
+          },
+          onPanUpdate: (dragUpdate) {
+            setSeekbar(dragUpdate.localPosition);
+          },
+          onPanCancel: () {
+            setState(() {
+              isPanActive = false;
+            });
+          },
+          onPanEnd: (_) {
+            int seconds = (Provider.of<PlayerProvider>(
+                      context,
+                      listen: false,
+                    ).duration.inSeconds *
+                    calculateSeekbarPosition())
+                .round();
+            Provider.of<PlayerProvider>(context, listen: false)
+                .seekSecond(seconds);
+            setState(() {
+              isPanActive = false;
+            });
+          },
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                bottom: MediaQuery.of(context).size.height * .01,
+                child: Consumer<PlayerProvider>(
+                  builder: (context, notifier, child) {
+                    return Text(
+                      notifier.getPositionFormatted(),
+                      style: TextStyle(
+                        color: textLightColor,
                       ),
-                    ],
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (Provider.of<PlayerProvider>(context, listen: false)
-                          .isPlaying) {
-                        Provider.of<PlayerProvider>(context, listen: false)
-                            .pause();
-                      } else {
-                        Provider.of<PlayerProvider>(context, listen: false)
-                            .play();
-                      }
-                    },
-                    child: Container(
-                      child: Center(
-                        child: PlayPauseButton(),
+                    );
+                  },
+                ),
+              ),
+              Positioned(
+                bottom: MediaQuery.of(context).size.height * .01,
+                right: 0,
+                child: Consumer<PlayerProvider>(
+                  builder: (context, notifier, child) {
+                    return Text(
+                      notifier.getDurationFormatted(),
+                      style: TextStyle(
+                        color: textLightColor,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              CustomPaint(
+                painter:
+                    SeekbarPainter(isPanActive ? manualProgress : progress),
+                child: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.height * .075,
+                    height: MediaQuery.of(context).size.height * .075,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFfbbb8a),
+                      gradient: RadialGradient(
+                        colors: [
+                          Color(0xFFffd390),
+                          Color(0xFFfbbb8a),
+                        ],
+                        center: Alignment(-0.2, -0.2),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 10,
+                        ),
+                      ],
+                      shape: BoxShape.circle,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (Provider.of<PlayerProvider>(context, listen: false)
+                            .isPlaying) {
+                          Provider.of<PlayerProvider>(context, listen: false)
+                              .pause();
+                        } else {
+                          Provider.of<PlayerProvider>(context, listen: false)
+                              .play();
+                        }
+                      },
+                      child: Container(
+                        child: Center(
+                          child: PlayPauseButton(),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
