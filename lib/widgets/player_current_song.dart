@@ -7,50 +7,67 @@ import '../widgets/song_seekbar_circle.dart';
 import '../widgets/player_visualizer.dart';
 
 class PlayerCurrentSong extends StatelessWidget {
+  final double heightFactor;
+
+  PlayerCurrentSong([this.heightFactor = 1]);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * .7,
-      child: Stack(
-        children: <Widget>[
-          BackgroundSplash(),
-          AppTitle(),
-          SongHeader(
-            Provider.of<PlayerProvider>(context).getTitle(),
-            Provider.of<PlayerProvider>(context, listen: false).getArtist(),
-            Provider.of<PlayerProvider>(context, listen: false)
-                .getDurationFormatted(),
-          ),
-          PlayerVisualizer(),
-          Container(
-            height: MediaQuery.of(context).size.width * .5,
-            margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * .25,
-              left: MediaQuery.of(context).size.width * .25,
-              right: MediaQuery.of(context).size.width * .25,
+    return Positioned(
+      width: MediaQuery.of(context).size.width,
+      top: 0,
+      child: ClipRect(
+        child: Align(
+          alignment: Alignment.topCenter,
+          heightFactor: heightFactor,
+          child: Container(
+            height: MediaQuery.of(context).size.height * .7,
+            child: Stack(
+              children: <Widget>[
+                BackgroundSplash(),
+                AppTitle(),
+                SongHeader(
+                  Provider.of<PlayerProvider>(context).getTitle(),
+                  Provider.of<PlayerProvider>(context, listen: false)
+                      .getArtist(),
+                  Provider.of<PlayerProvider>(context, listen: false)
+                      .getDurationFormatted(),
+                ),
+                PlayerVisualizer(),
+                Container(
+                  height: MediaQuery.of(context).size.width * .5,
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * .25,
+                    left: MediaQuery.of(context).size.width * .25,
+                    right: MediaQuery.of(context).size.width * .25,
+                  ),
+                  child: SongSeekbarCircle(),
+                ),
+                CurrentSongButtons(),
+                CornerButton(
+                  icon: Icons.menu,
+                  corner: CornerPositions.topLeft,
+                ),
+                CornerButton(
+                  icon: Icons.search,
+                  corner: CornerPositions.topRight,
+                ),
+                CornerButton(
+                  icon: Icons.fast_rewind,
+                  corner: CornerPositions.bottomLeft,
+                  songId:
+                      Provider.of<PlayerProvider>(context).songId == 2 ? 1 : 0,
+                ),
+                CornerButton(
+                  icon: Icons.fast_forward,
+                  corner: CornerPositions.bottomRight,
+                  songId:
+                      Provider.of<PlayerProvider>(context).songId == 0 ? 1 : 2,
+                ),
+              ],
             ),
-            child: SongSeekbarCircle(),
           ),
-          CurrentSongButtons(),
-          CornerButton(
-            icon: Icons.menu,
-            corner: CornerPositions.topLeft,
-          ),
-          CornerButton(
-            icon: Icons.search,
-            corner: CornerPositions.topRight,
-          ),
-          CornerButton(
-            icon: Icons.fast_rewind,
-            corner: CornerPositions.bottomLeft,
-            songId: Provider.of<PlayerProvider>(context).songId == 2 ? 1 : 0,
-          ),
-          CornerButton(
-            icon: Icons.fast_forward,
-            corner: CornerPositions.bottomRight,
-            songId: Provider.of<PlayerProvider>(context).songId == 0 ? 1 : 2,
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -7,49 +7,48 @@ import '../providers/player_provider.dart';
 class PlayerRecentPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 25,
-          vertical: 15,
-        ),
-        color: backgroundLightColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Recent Playlist",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: textDarkColor,
-              ),
+    return Container(
+      height: MediaQuery.of(context).size.height * .3,
+      padding: EdgeInsets.symmetric(
+        horizontal: 25,
+        vertical: 15,
+      ),
+      color: backgroundLightColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Recent Playlist",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: textDarkColor,
             ),
-            Divider(
-              color: borderColor,
-              thickness: 2,
-              height: 25,
-            ),
-            Consumer<PlayerProvider>(
-              builder: (context, notifier, child) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    RecentPlaylistTile(
-                      0,
-                    ),
-                    RecentPlaylistTile(
-                      1,
-                    ),
-                    RecentPlaylistTile(
-                      2,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+          Divider(
+            color: borderColor,
+            thickness: 2,
+            height: 25,
+          ),
+          Consumer<PlayerProvider>(
+            builder: (context, notifier, child) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  RecentPlaylistTile(
+                    0,
+                  ),
+                  RecentPlaylistTile(
+                    1,
+                  ),
+                  RecentPlaylistTile(
+                    2,
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -90,38 +89,40 @@ class RecentPlaylistTile extends StatelessWidget {
               ]),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image(
-                  image: AssetImage("assets/images/${songData['cover']}"),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10,
-                    bottom: 10,
-                    left: 8,
-                    right: 0,
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image(
+                    image: AssetImage("assets/images/${songData['cover']}"),
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "${songData['title'].substring(0, 14)} ...",
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: textDarkColor,
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                      left: 8,
+                      right: 0,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "${songData['title'].substring(0, 14)} ...",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: textDarkColor,
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.more_vert,
-                        size: 15,
-                      ),
-                    ],
+                        Spacer(),
+                        Icon(
+                          Icons.more_vert,
+                          size: 15,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
