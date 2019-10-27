@@ -5,6 +5,14 @@ import '../styleguide.dart';
 import '../providers/player_provider.dart';
 
 class PlayerRecentPlaylist extends StatelessWidget {
+  final String _title;
+  final bool _darkMode;
+
+  PlayerRecentPlaylist(
+    this._title, [
+    this._darkMode = false,
+  ]);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,20 +21,20 @@ class PlayerRecentPlaylist extends StatelessWidget {
         horizontal: 25,
         vertical: 15,
       ),
-      color: backgroundLightColor,
+      color: _darkMode ? backgroundDarkColor : backgroundLightColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Recent Playlist",
+            _title,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
-              color: textDarkColor,
+              color: _darkMode ? textLightColor : textDarkColor,
             ),
           ),
           Divider(
-            color: borderColor,
+            color: _darkMode ? borderDarkColor : borderLightColor,
             thickness: 2,
             height: 25,
           ),
@@ -37,12 +45,15 @@ class PlayerRecentPlaylist extends StatelessWidget {
                 children: <Widget>[
                   RecentPlaylistTile(
                     0,
+                    _darkMode,
                   ),
                   RecentPlaylistTile(
                     1,
+                    _darkMode,
                   ),
                   RecentPlaylistTile(
                     2,
+                    _darkMode,
                   ),
                 ],
               );
@@ -56,10 +67,12 @@ class PlayerRecentPlaylist extends StatelessWidget {
 
 class RecentPlaylistTile extends StatelessWidget {
   final int _songId;
+  final bool _darkMode;
 
   RecentPlaylistTile(
-    this._songId,
-  );
+    this._songId, [
+    this._darkMode = false,
+  ]);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +91,7 @@ class RecentPlaylistTile extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
-                color: borderColor,
+                color: _darkMode ? backgroundDarkColor : borderLightColor,
               ),
               boxShadow: [
                 BoxShadow(

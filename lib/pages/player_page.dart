@@ -25,7 +25,6 @@ class _PlayerPageState extends State<PlayerPage>
   double panStartAnimation;
 
   final StreamController _streamController = StreamController();
-  StreamSubscription _streamSubscription;
 
   @override
   void initState() {
@@ -40,6 +39,12 @@ class _PlayerPageState extends State<PlayerPage>
           _streamController.sink.add(_pageController.value);
         },
       );
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
   }
 
   void startPan(double posY) {
@@ -99,9 +104,9 @@ class _PlayerPageState extends State<PlayerPage>
               builder: (context, snapshot) {
                 return Positioned(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  top: MediaQuery.of(context).size.height *
-                      (.7 - _pageController.value),
+                  height: MediaQuery.of(context).size.height * 1.3,
+                  top:
+                      MediaQuery.of(context).size.height * (.7 - snapshot.data),
                   child: GestureDetector(
                     onPanStart: (drag) {
                       startPan(drag.globalPosition.dy);
@@ -115,14 +120,23 @@ class _PlayerPageState extends State<PlayerPage>
                     child: Container(
                       child: Column(
                         children: <Widget>[
-                          PlayerRecentPlaylist(),
+                          PlayerRecentPlaylist("Recent Playlist"),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .1,
+                            color: backgroundDarkColor,
+                          ),
                           Expanded(
                             child: Container(
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * .1),
                               width: double.infinity,
-                              child: PlayerRecentPlaylist(),
+                              child: PlayerRecentPlaylist(
+                                "Recently Added Tracks",
+                                true,
+                              ),
                             ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .6,
+                            color: backgroundDarkColor,
                           ),
                         ],
                       ),
