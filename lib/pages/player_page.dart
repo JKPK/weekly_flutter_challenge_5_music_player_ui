@@ -8,6 +8,7 @@ import '../styleguide.dart';
 import '../providers/player_provider.dart';
 import '../widgets/player_recent_playlist.dart';
 import '../widgets/player_current_song.dart';
+import '../widgets/app_title.dart';
 
 typedef void OnError(Exception exception);
 
@@ -124,6 +125,7 @@ class _PlayerPageState extends State<PlayerPage>
                           Container(
                             height: MediaQuery.of(context).size.height * .1,
                             color: backgroundDarkColor,
+                            child: AppTitle("Tracks"),
                           ),
                           Expanded(
                             child: Container(
@@ -144,6 +146,14 @@ class _PlayerPageState extends State<PlayerPage>
                   ),
                 );
               },
+            ),
+            CornerButton(
+              icon: Icons.menu,
+              corner: CornerPositions.topLeft,
+            ),
+            CornerButton(
+              icon: Icons.search,
+              corner: CornerPositions.topRight,
             ),
           ],
         ),

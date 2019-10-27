@@ -5,6 +5,7 @@ import '../styleguide.dart';
 import '../providers/player_provider.dart';
 import '../widgets/song_seekbar_circle.dart';
 import '../widgets/player_visualizer.dart';
+import '../widgets/app_title.dart';
 
 class PlayerCurrentSong extends StatelessWidget {
   final double heightFactor;
@@ -25,7 +26,7 @@ class PlayerCurrentSong extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 BackgroundSplash(),
-                AppTitle(),
+                AppTitle("Music Player"),
                 SongHeader(
                   Provider.of<PlayerProvider>(context).getTitle(),
                   Provider.of<PlayerProvider>(context, listen: false)
@@ -45,14 +46,6 @@ class PlayerCurrentSong extends StatelessWidget {
                 ),
                 CurrentSongButtons(),
                 CornerButton(
-                  icon: Icons.menu,
-                  corner: CornerPositions.topLeft,
-                ),
-                CornerButton(
-                  icon: Icons.search,
-                  corner: CornerPositions.topRight,
-                ),
-                CornerButton(
                   icon: Icons.fast_rewind,
                   corner: CornerPositions.bottomLeft,
                   songId:
@@ -68,25 +61,6 @@ class PlayerCurrentSong extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AppTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 60,
-        vertical: 30,
-      ),
-      height: 35,
-      width: double.infinity,
-      alignment: Alignment.center,
-      child: Text(
-        "Music Player",
-        style: textTitleStyle,
       ),
     );
   }
