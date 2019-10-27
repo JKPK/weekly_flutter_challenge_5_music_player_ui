@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,9 @@ class _PlayerPageState extends State<PlayerPage>
   double panPosY = 0;
   double panStartAnimation;
 
+  final StreamController _streamController = StreamController();
+  StreamSubscription _streamSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -32,9 +37,7 @@ class _PlayerPageState extends State<PlayerPage>
     _pageAnimation = Tween<double>(begin: 0, end: 1).animate(_pageController)
       ..addListener(
         () {
-          setState(
-            () {},
-          );
+          _streamController.sink.add(_pageController.value);
         },
       );
   }
@@ -63,7 +66,6 @@ class _PlayerPageState extends State<PlayerPage>
 
   void updatePan(double offsetY) {
     panPosY += offsetY;
-    print(panPosY);
     if (panStartAnimation == 0) {
       if (panPosY > 0) {
         panPosY = 0;
@@ -91,37 +93,43 @@ class _PlayerPageState extends State<PlayerPage>
         child: Stack(
           children: <Widget>[
             PlayerCurrentSong(1 - _pageController.value),
-            Positioned(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
-              top: MediaQuery.of(context).size.height *
-                  (.7 - _pageController.value),
-              child: GestureDetector(
-                onPanStart: (drag) {
-                  startPan(drag.globalPosition.dy);
-                },
-                onPanEnd: (drag) {
-                  endPan(drag.velocity);
-                },
-                onPanUpdate: (drag) {
-                  updatePan(drag.delta.dy);
-                },
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      PlayerRecentPlaylist(),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * .1),
-                          width: double.infinity,
-                          child: PlayerRecentPlaylist(),
-                        ),
+            StreamBuilder(
+              stream: _streamController.stream,
+              initialData: 0.0,
+              builder: (context, snapshot) {
+                return Positioned(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  top: MediaQuery.of(context).size.height *
+                      (.7 - _pageController.value),
+                  child: GestureDetector(
+                    onPanStart: (drag) {
+                      startPan(drag.globalPosition.dy);
+                    },
+                    onPanEnd: (drag) {
+                      endPan(drag.velocity);
+                    },
+                    onPanUpdate: (drag) {
+                      updatePan(drag.delta.dy);
+                    },
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          PlayerRecentPlaylist(),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height * .1),
+                              width: double.infinity,
+                              child: PlayerRecentPlaylist(),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),

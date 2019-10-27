@@ -17,6 +17,7 @@ This challenge is about recreating Kazi Mohammed Erfan's [Music Player UI design
 8. Learned more about [Paint](https://api.flutter.dev/flutter/dart-ui/Paint-class.html) class.
 9. [IgnorePointer](https://api.flutter.dev/flutter/widgets/IgnorePointer-class.html) & [AbsorbPointer](https://api.flutter.dev/flutter/widgets/AbsorbPointer-class.html) widgets.
 10. [ClipRect](https://api.flutter.dev/flutter/widgets/ClipRect-class.html) widget.
+11. Streams: [StreamController](https://api.flutter.dev/flutter/dart-async/StreamController-class.html), [StreamSubscription](https://api.flutter.dev/flutter/dart-async/StreamSubscription-class.html) and [StreamBuilder](https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html) classes, more info [here](https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc/).
 
 ## Original design
 [![Original design](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/original_design.png?raw=true)](https://www.uplabs.com/posts/free-music-player-ui)
