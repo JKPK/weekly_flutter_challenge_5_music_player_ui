@@ -325,55 +325,60 @@ class AllTracksTrack extends StatelessWidget {
 class AllTracksSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topRight,
+    return Positioned(
+      top: 0,
+      right: 0,
       child: Container(
-        width: 25,
-        margin: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 10.0,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(5.0),
+        height: MediaQuery.of(context).size.height * .6,
+        alignment: Alignment.topRight,
+        child: Container(
+          width: 25,
+          margin: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 10.0,
           ),
-          border: Border.all(
-            color: textLightColor.withOpacity(0.5),
-            width: 0.5,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(5.0),
+            ),
+            border: Border.all(
+              color: textLightColor.withOpacity(0.5),
+              width: 0.5,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            AllTracksSearchLetter("#"),
-            AllTracksSearchLetter("A"),
-            AllTracksSearchLetter("B"),
-            AllTracksSearchLetter("C"),
-            AllTracksSearchLetter("D"),
-            AllTracksSearchLetter("E"),
-            AllTracksSearchLetter("F"),
-            AllTracksSearchLetter("G"),
-            AllTracksSearchLetter("H"),
-            AllTracksSearchLetter("I"),
-            AllTracksSearchLetter("J"),
-            AllTracksSearchLetter("K"),
-            AllTracksSearchLetter("L"),
-            AllTracksSearchLetter("M"),
-            AllTracksSearchLetter("N"),
-            AllTracksSearchLetter("O"),
-            AllTracksSearchLetter("P"),
-            AllTracksSearchLetter("Q"),
-            AllTracksSearchLetter("R"),
-            AllTracksSearchLetter("S"),
-            AllTracksSearchLetter("T"),
-            AllTracksSearchLetter("U"),
-            AllTracksSearchLetter("V"),
-            AllTracksSearchLetter("W"),
-            AllTracksSearchLetter("X"),
-            AllTracksSearchLetter("Y"),
-            AllTracksSearchLetter("Z"),
-          ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              AllTracksSearchLetter("#"),
+              AllTracksSearchLetter("A"),
+              AllTracksSearchLetter("B"),
+              AllTracksSearchLetter("C"),
+              AllTracksSearchLetter("D"),
+              AllTracksSearchLetter("E"),
+              AllTracksSearchLetter("F"),
+              AllTracksSearchLetter("G"),
+              AllTracksSearchLetter("H"),
+              AllTracksSearchLetter("I"),
+              AllTracksSearchLetter("J"),
+              AllTracksSearchLetter("K"),
+              AllTracksSearchLetter("L"),
+              AllTracksSearchLetter("M"),
+              AllTracksSearchLetter("N"),
+              AllTracksSearchLetter("O"),
+              AllTracksSearchLetter("P"),
+              AllTracksSearchLetter("Q"),
+              AllTracksSearchLetter("R"),
+              AllTracksSearchLetter("S"),
+              AllTracksSearchLetter("T"),
+              AllTracksSearchLetter("U"),
+              AllTracksSearchLetter("V"),
+              AllTracksSearchLetter("W"),
+              AllTracksSearchLetter("X"),
+              AllTracksSearchLetter("Y"),
+              AllTracksSearchLetter("Z"),
+            ],
+          ),
         ),
       ),
     );
