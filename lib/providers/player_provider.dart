@@ -29,6 +29,24 @@ class PlayerProvider extends ChangeNotifier {
       'file': 'Loveshadow_-_I_Used_to_Think.mp3',
       'cover': 'playlist_image_3.jpg',
     },
+    {
+      'title': 'Standing on the edge',
+      'artist': 'Lav',
+      'file': 'Lav_-_standing_on_the_edge.mp3',
+      'cover': 'playlist_image_4.jpg',
+    },
+    {
+      'title': 'Hachiko (The Faithtful Dog)',
+      'artist': 'The Kyoto',
+      'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
+      'cover': 'playlist_image_5.jpg',
+    },
+    {
+      'title': 'I Used to Think',
+      'artist': 'Loveshadow',
+      'file': 'Loveshadow_-_I_Used_to_Think.mp3',
+      'cover': 'playlist_image_6.jpg',
+    },
   ];
 
   AudioCache get audioCache => _audioCache;

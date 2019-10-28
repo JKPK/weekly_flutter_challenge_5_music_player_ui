@@ -78,7 +78,7 @@ class RecentPlaylistTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, String> songData =
         Provider.of<PlayerProvider>(context, listen: false)
-            .getSongData(_songId);
+            .getSongData(_songId+(_darkMode?3:0));
 
     return Expanded(
       child: GestureDetector(

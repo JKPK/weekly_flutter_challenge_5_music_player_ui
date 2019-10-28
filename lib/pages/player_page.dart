@@ -9,6 +9,7 @@ import '../providers/player_provider.dart';
 import '../widgets/player_recent_playlist.dart';
 import '../widgets/player_current_song.dart';
 import '../widgets/app_title.dart';
+import '../widgets/all_tracks.dart';
 
 typedef void OnError(Exception exception);
 
@@ -25,7 +26,7 @@ class _PlayerPageState extends State<PlayerPage>
   double panPosY = 0;
   double panStartAnimation;
 
-  final StreamController _streamController = StreamController();
+  final StreamController _streamController = StreamController.broadcast();
 
   @override
   void initState() {
@@ -105,7 +106,7 @@ class _PlayerPageState extends State<PlayerPage>
               builder: (context, snapshot) {
                 return Positioned(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 1.3,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   top:
                       MediaQuery.of(context).size.height * (.7 - snapshot.data),
                   child: GestureDetector(
@@ -136,10 +137,6 @@ class _PlayerPageState extends State<PlayerPage>
                               ),
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * .6,
-                            color: backgroundDarkColor,
-                          ),
                         ],
                       ),
                     ),
@@ -147,6 +144,7 @@ class _PlayerPageState extends State<PlayerPage>
                 );
               },
             ),
+            AllTracks(_streamController.stream),
             CornerButton(
               icon: Icons.menu,
               corner: CornerPositions.topLeft,
