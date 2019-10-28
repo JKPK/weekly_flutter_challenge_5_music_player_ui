@@ -125,7 +125,7 @@ class AllTracksTrackList extends StatelessWidget {
       'title': 'The Fall Off',
       'artist': 'J. Cole',
       'duration': '4:07',
-      'cover': 'tracklist_image13.jpg',
+      'cover': 'tracklist_image_13.jpg',
     },
     {
       'title': 'Yandhi',
