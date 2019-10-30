@@ -203,23 +203,25 @@ class AllTracksTrackList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(
-        left: 30.0,
-        right: 42.0,
-        top: 30.0,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          for (var songData in _songsData)
-            AllTracksTrack(
-              title: songData['title'],
-              artist: songData['artist'],
-              duration: songData['duration'],
-              cover: songData['cover'],
-            ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          left: 30.0,
+          right: 42.0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            for (var songData in _songsData)
+              AllTracksTrack(
+                title: songData['title'],
+                artist: songData['artist'],
+                duration: songData['duration'],
+                cover: songData['cover'],
+              ),
+          ],
+        ),
       ),
     );
   }
