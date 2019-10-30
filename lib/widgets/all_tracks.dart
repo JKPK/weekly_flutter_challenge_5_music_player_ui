@@ -1,19 +1,88 @@
 import 'package:flutter/material.dart';
 
 import '../styleguide.dart';
+import '../dummydata.dart';
 
-class AllTracks extends StatelessWidget {
+class AllTracks extends StatefulWidget {
   final Stream stream;
 
   AllTracks(this.stream);
 
   @override
+  _AllTracksState createState() => _AllTracksState();
+}
+
+class _AllTracksState extends State<AllTracks> {
+  static const _songsData = songsData;
+
+  ScrollController _tracklistScrollController;
+  double _itemSize;
+  int _currentItem;
+  String _currentLetter;
+  bool _isInit = false;
+
+  @override
+  void initState() {
+    _tracklistScrollController = ScrollController();
+    _tracklistScrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      _itemSize = MediaQuery.of(context).size.height * .125;
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _scrollListener() {
+    setCurrentLetter();
+  }
+
+  setCurrentLetter() {
+    setCurrentItem();
+    _currentLetter = (_songsData[_currentItem]["artist"]).substring(0, 1);
+    if (double.tryParse(_currentLetter) != null) {
+      _currentLetter = "#";
+    }
+  }
+
+  setCurrentItem() {
+    _currentItem =
+        (_tracklistScrollController.offset / _itemSize).floorToDouble().toInt();
+  }
+
+  void jumpToItem(String letter) {
+    double position = getLetterScrollPosition(letter);
+    if (position != null) {
+      _tracklistScrollController.animateTo(
+        position,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.decelerate,
+      );
+    }
+  }
+
+  double getLetterScrollPosition(String letter) {
+    double position;
+    for (int i = 0; i < _songsData.length; i++) {
+      if (_songsData[i]["artist"].substring(0, 1) == letter) {
+        position = i * _itemSize;
+        break;
+      }
+    }
+    ;
+    return position;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: stream,
+      stream: widget.stream,
       initialData: 0.0,
       builder: (context, snapshot) {
-        print(snapshot.data);
         return Container(
           margin: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * (1.4 - snapshot.data),
@@ -24,8 +93,8 @@ class AllTracks extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               AllTracksTitle(),
-              AllTracksTrackList(),
-              AllTracksSearch(),
+              AllTracksTrackList(_songsData, _tracklistScrollController),
+              AllTracksSearch(jumpToItem),
             ],
           ),
         );
@@ -48,164 +117,20 @@ class AllTracksTitle extends StatelessWidget {
 }
 
 class AllTracksTrackList extends StatelessWidget {
-  final List<Map<String, String>> _songsData = [
-    {
-      'title': 'Rap or Go to the League',
-      'artist': '2 Chainz',
-      'duration': '3:54',
-      'cover': 'tracklist_image_1.jpg',
-    },
-    {
-      'title': 'Real Hasta La Muerte 2',
-      'artist': 'Anuel AA',
-      'duration': '4:07',
-      'cover': 'tracklist_image_2.jpg',
-    },
-    {
-      'title': 'thank u, next',
-      'artist': 'Ariana Grande',
-      'duration': '3:29',
-      'cover': 'tracklist_image_3.jpg',
-    },
-    {
-      'title': 'when the party’s over',
-      'artist': 'Billie Eilish',
-      'duration': '4:25',
-      'cover': 'tracklist_image_4.jpg',
-    },
-    {
-      'title': 'Invasion of Privacy',
-      'artist': 'Cardi B',
-      'duration': '2:43',
-      'cover': 'tracklist_image_5.jpg',
-    },
-    {
-      'title': 'No Problem',
-      'artist': 'Chance the Rapper',
-      'duration': '3:54',
-      'cover': 'tracklist_image_6.jpg',
-    },
-    {
-      'title': '2099',
-      'artist': 'Charli XCX',
-      'duration': '4:07',
-      'cover': 'tracklist_image_7.jpg',
-    },
-    {
-      'title': 'This Is America',
-      'artist': 'Childish Gambino',
-      'duration': '3:29',
-      'cover': 'tracklist_image_8.jpg',
-    },
-    {
-      'title': 'Revenge of The Dreamers III',
-      'artist': 'Dreamville',
-      'duration': '4:25',
-      'cover': 'tracklist_image_9.jpg',
-    },
-    {
-      'title': 'New Rules',
-      'artist': 'Dua Lipa',
-      'duration': '2:43',
-      'cover': 'tracklist_image_10.jpg',
-    },
-    {
-      'title': 'Thinking Bout You',
-      'artist': 'Frank Ocean',
-      'duration': '3:54',
-      'cover': 'tracklist_image_11.jpg',
-    },
-    {
-      'title': 'Oblivion',
-      'artist': 'Grimes',
-      'duration': '3:54',
-      'cover': 'tracklist_image_12.jpg',
-    },
-    {
-      'title': 'The Fall Off',
-      'artist': 'J. Cole',
-      'duration': '4:07',
-      'cover': 'tracklist_image_13.jpg',
-    },
-    {
-      'title': 'Yandhi',
-      'artist': 'Kanye West',
-      'duration': '3:29',
-      'cover': 'tracklist_image_14.jpg',
-    },
-    {
-      'title': 'Nights Like This,',
-      'artist': 'Kehlani',
-      'duration': '4:25',
-      'cover': 'tracklist_image_15.jpg',
-    },
-    {
-      'title': 'Norman Fucking Rockwell',
-      'artist': 'Lana Del Rey',
-      'duration': '2:43',
-      'cover': 'tracklist_image_16.jpg',
-    },
-    {
-      'title': 'Eternal Atake',
-      'artist': 'Lil Uzi Vert',
-      'duration': '3:54',
-      'cover': 'tracklist_image_17.jpg',
-    },
-    {
-      'title': 'Red Room',
-      'artist': 'Offset',
-      'duration': '3:54',
-      'cover': 'tracklist_image_18.jpg',
-    },
-    {
-      'title': 'Umbrella',
-      'artist': 'Rihanna',
-      'duration': '4:07',
-      'cover': 'tracklist_image_19.jpg',
-    },
-    {
-      'title': 'Run the Jewels 4',
-      'artist': 'Run the Jewels',
-      'duration': '3:29',
-      'cover': 'tracklist_image_20.jpg',
-    },
-    {
-      'title': 'Blank Face',
-      'artist': 'ScHoolboy Q',
-      'duration': '4:25',
-      'cover': 'tracklist_image_21.jpg',
-    },
-    {
-      'title': 'A Seat at the Table',
-      'artist': 'Solange',
-      'duration': '2:43',
-      'cover': 'tracklist_image_22.jpg',
-    },
-    {
-      'title': 'A',
-      'artist': 'SZA',
-      'duration': '3:54',
-      'cover': 'tracklist_image_23.jpg',
-    },
-    {
-      'title': 'Currents',
-      'artist': 'Tame Impala',
-      'duration': '3:54',
-      'cover': 'tracklist_image_24.jpg',
-    },
-    {
-      'title': 'Chapter VI',
-      'artist': 'The Weeknd',
-      'duration': '4:07',
-      'cover': 'tracklist_image_25.jpg',
-    },
-  ];
+  final songsData;
+  ScrollController tracklistScrollController;
+
+  AllTracksTrackList(
+    this.songsData,
+    this.tracklistScrollController,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: SingleChildScrollView(
+        controller: tracklistScrollController,
         padding: const EdgeInsets.only(
           left: 30.0,
           right: 42.0,
@@ -213,7 +138,7 @@ class AllTracksTrackList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            for (var songData in _songsData)
+            for (var songData in songsData)
               AllTracksTrack(
                 title: songData['title'],
                 artist: songData['artist'],
@@ -325,6 +250,10 @@ class AllTracksTrack extends StatelessWidget {
 }
 
 class AllTracksSearch extends StatelessWidget {
+  final Function feedbackFunction;
+
+  AllTracksSearch(this.feedbackFunction);
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -352,33 +281,33 @@ class AllTracksSearch extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              AllTracksSearchLetter("#"),
-              AllTracksSearchLetter("A"),
-              AllTracksSearchLetter("B"),
-              AllTracksSearchLetter("C"),
-              AllTracksSearchLetter("D"),
-              AllTracksSearchLetter("E"),
-              AllTracksSearchLetter("F"),
-              AllTracksSearchLetter("G"),
-              AllTracksSearchLetter("H"),
-              AllTracksSearchLetter("I"),
-              AllTracksSearchLetter("J"),
-              AllTracksSearchLetter("K"),
-              AllTracksSearchLetter("L"),
-              AllTracksSearchLetter("M"),
-              AllTracksSearchLetter("N"),
-              AllTracksSearchLetter("O"),
-              AllTracksSearchLetter("P"),
-              AllTracksSearchLetter("Q"),
-              AllTracksSearchLetter("R"),
-              AllTracksSearchLetter("S"),
-              AllTracksSearchLetter("T"),
-              AllTracksSearchLetter("U"),
-              AllTracksSearchLetter("V"),
-              AllTracksSearchLetter("W"),
-              AllTracksSearchLetter("X"),
-              AllTracksSearchLetter("Y"),
-              AllTracksSearchLetter("Z"),
+              AllTracksSearchLetter("#", feedbackFunction),
+              AllTracksSearchLetter("A", feedbackFunction),
+              AllTracksSearchLetter("B", feedbackFunction),
+              AllTracksSearchLetter("C", feedbackFunction),
+              AllTracksSearchLetter("D", feedbackFunction),
+              AllTracksSearchLetter("E", feedbackFunction),
+              AllTracksSearchLetter("F", feedbackFunction),
+              AllTracksSearchLetter("G", feedbackFunction),
+              AllTracksSearchLetter("H", feedbackFunction),
+              AllTracksSearchLetter("I", feedbackFunction),
+              AllTracksSearchLetter("J", feedbackFunction),
+              AllTracksSearchLetter("K", feedbackFunction),
+              AllTracksSearchLetter("L", feedbackFunction),
+              AllTracksSearchLetter("M", feedbackFunction),
+              AllTracksSearchLetter("N", feedbackFunction),
+              AllTracksSearchLetter("O", feedbackFunction),
+              AllTracksSearchLetter("P", feedbackFunction),
+              AllTracksSearchLetter("Q", feedbackFunction),
+              AllTracksSearchLetter("R", feedbackFunction),
+              AllTracksSearchLetter("S", feedbackFunction),
+              AllTracksSearchLetter("T", feedbackFunction),
+              AllTracksSearchLetter("U", feedbackFunction),
+              AllTracksSearchLetter("V", feedbackFunction),
+              AllTracksSearchLetter("W", feedbackFunction),
+              AllTracksSearchLetter("X", feedbackFunction),
+              AllTracksSearchLetter("Y", feedbackFunction),
+              AllTracksSearchLetter("Z", feedbackFunction),
             ],
           ),
         ),
@@ -389,17 +318,26 @@ class AllTracksSearch extends StatelessWidget {
 
 class AllTracksSearchLetter extends StatelessWidget {
   final String letter;
+  final Function feedbackFunction;
 
-  AllTracksSearchLetter(this.letter);
+  AllTracksSearchLetter(
+    this.letter,
+    this.feedbackFunction,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        letter,
-        style: TextStyle(
-          color: textLightColor,
-          fontSize: 11,
+    return GestureDetector(
+      onTap: () {
+        feedbackFunction(letter);
+      },
+      child: Container(
+        child: Text(
+          letter,
+          style: TextStyle(
+            color: textLightColor,
+            fontSize: 11,
+          ),
         ),
       ),
     );
