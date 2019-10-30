@@ -47,6 +47,7 @@ class _AllTracksState extends State<AllTracks> {
     if (double.tryParse(_currentLetter) != null) {
       _currentLetter = "#";
     }
+    setState(() {});
   }
 
   setCurrentItem() {
@@ -94,7 +95,7 @@ class _AllTracksState extends State<AllTracks> {
             children: <Widget>[
               AllTracksTitle(),
               AllTracksTrackList(_songsData, _tracklistScrollController),
-              AllTracksSearch(jumpToItem),
+              AllTracksSearch(_currentLetter, jumpToItem),
             ],
           ),
         );
@@ -250,9 +251,42 @@ class AllTracksTrack extends StatelessWidget {
 }
 
 class AllTracksSearch extends StatelessWidget {
+  final String currentLetter;
   final Function feedbackFunction;
+  static const List<String> letters = [
+    "#",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
 
-  AllTracksSearch(this.feedbackFunction);
+  AllTracksSearch(
+    this.currentLetter,
+    this.feedbackFunction,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -281,33 +315,12 @@ class AllTracksSearch extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              AllTracksSearchLetter("#", feedbackFunction),
-              AllTracksSearchLetter("A", feedbackFunction),
-              AllTracksSearchLetter("B", feedbackFunction),
-              AllTracksSearchLetter("C", feedbackFunction),
-              AllTracksSearchLetter("D", feedbackFunction),
-              AllTracksSearchLetter("E", feedbackFunction),
-              AllTracksSearchLetter("F", feedbackFunction),
-              AllTracksSearchLetter("G", feedbackFunction),
-              AllTracksSearchLetter("H", feedbackFunction),
-              AllTracksSearchLetter("I", feedbackFunction),
-              AllTracksSearchLetter("J", feedbackFunction),
-              AllTracksSearchLetter("K", feedbackFunction),
-              AllTracksSearchLetter("L", feedbackFunction),
-              AllTracksSearchLetter("M", feedbackFunction),
-              AllTracksSearchLetter("N", feedbackFunction),
-              AllTracksSearchLetter("O", feedbackFunction),
-              AllTracksSearchLetter("P", feedbackFunction),
-              AllTracksSearchLetter("Q", feedbackFunction),
-              AllTracksSearchLetter("R", feedbackFunction),
-              AllTracksSearchLetter("S", feedbackFunction),
-              AllTracksSearchLetter("T", feedbackFunction),
-              AllTracksSearchLetter("U", feedbackFunction),
-              AllTracksSearchLetter("V", feedbackFunction),
-              AllTracksSearchLetter("W", feedbackFunction),
-              AllTracksSearchLetter("X", feedbackFunction),
-              AllTracksSearchLetter("Y", feedbackFunction),
-              AllTracksSearchLetter("Z", feedbackFunction),
+              for (String letter in letters)
+                AllTracksSearchLetter(
+                  letter,
+                  feedbackFunction,
+                  currentLetter == letter,
+                ),
             ],
           ),
         ),
@@ -319,10 +332,12 @@ class AllTracksSearch extends StatelessWidget {
 class AllTracksSearchLetter extends StatelessWidget {
   final String letter;
   final Function feedbackFunction;
+  final bool isActive;
 
   AllTracksSearchLetter(
     this.letter,
     this.feedbackFunction,
+    this.isActive,
   );
 
   @override
@@ -335,8 +350,9 @@ class AllTracksSearchLetter extends StatelessWidget {
         child: Text(
           letter,
           style: TextStyle(
-            color: textLightColor,
+            color: isActive ? Colors.white : textLightColor,
             fontSize: 11,
+            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
