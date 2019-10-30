@@ -1,40 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../styleguide.dart';
+import '../dummydata.dart';
 import '../widgets/all_tracks_search_letter.dart';
 
 class AllTracksSearch extends StatelessWidget {
   final String currentLetter;
   final Function feedbackFunction;
-  static const List<String> letters = [
-    "#",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
 
   AllTracksSearch(
     this.currentLetter,

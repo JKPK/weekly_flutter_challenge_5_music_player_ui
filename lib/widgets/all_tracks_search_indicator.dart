@@ -17,7 +17,10 @@ class AllTracksSearchIndicator extends StatelessWidget {
       }
     }
 
-    return Positioned(
+    return AnimatedPositioned(
+      duration: Duration(
+        milliseconds: 100,
+      ),
       top: -5 +
           position *
               (MediaQuery.of(context).size.height * .575) /
