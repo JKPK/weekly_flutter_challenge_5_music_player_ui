@@ -22,7 +22,7 @@ class _AllTracksState extends State<AllTracks> {
   ScrollController _tracklistScrollController;
   double _itemSize;
   int _currentItem;
-  String _currentLetter;
+  String _currentLetter = "#";
   bool _isInit = false;
 
   @override
