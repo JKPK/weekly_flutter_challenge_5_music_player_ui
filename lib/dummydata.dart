@@ -1,4 +1,4 @@
-const List<Map<String, String>> songsData = [
+const List<Map<String, String>> tracklistSongsData = [
   {
     'title': 'Rap or Go to the League',
     'artist': '2 Chainz',
@@ -149,4 +149,73 @@ const List<Map<String, String>> songsData = [
     'duration': '4:07',
     'cover': 'tracklist_image_25.jpg',
   },
+];
+
+const List<Map<String, String>> playableSongsData = [
+  {
+    'title': 'Standing on the edge',
+    'artist': 'Lav',
+    'file': 'Lav_-_standing_on_the_edge.mp3',
+    'cover': 'playlist_image_1.jpg',
+  },
+  {
+    'title': 'Hachiko (The Faithtful Dog)',
+    'artist': 'The Kyoto',
+    'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
+    'cover': 'playlist_image_2.jpg',
+  },
+  {
+    'title': 'I Used to Think',
+    'artist': 'Loveshadow',
+    'file': 'Loveshadow_-_I_Used_to_Think.mp3',
+    'cover': 'playlist_image_3.jpg',
+  },
+  {
+    'title': 'Standing on the edge',
+    'artist': 'Lav',
+    'file': 'Lav_-_standing_on_the_edge.mp3',
+    'cover': 'playlist_image_4.jpg',
+  },
+  {
+    'title': 'Hachiko (The Faithtful Dog)',
+    'artist': 'The Kyoto',
+    'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
+    'cover': 'playlist_image_5.jpg',
+  },
+  {
+    'title': 'I Used to Think',
+    'artist': 'Loveshadow',
+    'file': 'Loveshadow_-_I_Used_to_Think.mp3',
+    'cover': 'playlist_image_6.jpg',
+  },
+];
+
+const List<String> letters = [
+  "#",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
 ];

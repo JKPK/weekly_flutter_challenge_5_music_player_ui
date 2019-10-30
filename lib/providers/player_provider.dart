@@ -3,51 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+import '../dummydata.dart';
+
 class PlayerProvider extends ChangeNotifier {
+  static const List<Map<String, String>> _songsData = playableSongsData;
   static AudioCache _audioCache;
   AudioPlayer _audioPlayer;
   AudioPlayerState _audioPlayerState;
   Duration _duration = Duration();
   Duration _position = Duration();
   int _songId = 0;
-  List<Map<String, String>> _songsData = [
-    {
-      'title': 'Standing on the edge',
-      'artist': 'Lav',
-      'file': 'Lav_-_standing_on_the_edge.mp3',
-      'cover': 'playlist_image_1.jpg',
-    },
-    {
-      'title': 'Hachiko (The Faithtful Dog)',
-      'artist': 'The Kyoto',
-      'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
-      'cover': 'playlist_image_2.jpg',
-    },
-    {
-      'title': 'I Used to Think',
-      'artist': 'Loveshadow',
-      'file': 'Loveshadow_-_I_Used_to_Think.mp3',
-      'cover': 'playlist_image_3.jpg',
-    },
-    {
-      'title': 'Standing on the edge',
-      'artist': 'Lav',
-      'file': 'Lav_-_standing_on_the_edge.mp3',
-      'cover': 'playlist_image_4.jpg',
-    },
-    {
-      'title': 'Hachiko (The Faithtful Dog)',
-      'artist': 'The Kyoto',
-      'file': 'The_Kyoto_Connection_-_09_-_Hachiko_The_Faithtful_Dog.mp3',
-      'cover': 'playlist_image_5.jpg',
-    },
-    {
-      'title': 'I Used to Think',
-      'artist': 'Loveshadow',
-      'file': 'Loveshadow_-_I_Used_to_Think.mp3',
-      'cover': 'playlist_image_6.jpg',
-    },
-  ];
 
   AudioCache get audioCache => _audioCache;
 
