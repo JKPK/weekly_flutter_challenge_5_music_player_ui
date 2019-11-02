@@ -21,41 +21,106 @@ class AllTracksSearchIndicator extends StatelessWidget {
       duration: Duration(
         milliseconds: 100,
       ),
-      top: -5 +
+      top: -55 +
           position *
               (MediaQuery.of(context).size.height * .575) /
               letters.length,
-      right: 70,
+      right: 0,
       child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [
-                Color(0xCCC56970),
-                Color(0xCCD09d7c),
-              ],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xCCC56970),
+                      Color(0xCCD09d7c),
+                    ],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 2,
+                      spreadRadius: 1,
+                    )
+                  ]),
+              child: Center(
+                child: Text(
+                  letter,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white70,
+                  ),
+                ),
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 2,
-                spreadRadius: 1,
-              )
-            ]),
-        child: Center(
-          child: Text(
-            letter,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white70,
-            ),
-          ),
+            SizedBox(width: 15),
+            CustomPaint(
+              painter: IndicatorPainter(),
+              size: Size(40, 150),
+            )
+          ],
         ),
       ),
     );
+  }
+}
+
+class IndicatorPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    LinearGradient gradient = LinearGradient(
+      colors: [
+        Color(0xCCC56970),
+        Color(0xCCD09d7c),
+      ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+    );
+
+    Paint paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill
+      ..shader = gradient.createShader(
+        Rect.fromPoints(
+          Offset(0, 0),
+          Offset(
+            size.width,
+            size.height,
+          ),
+        ),
+      )
+      ..strokeWidth = 1.0;
+
+    Path path = Path();
+    path.moveTo(size.width, size.height);
+    path.cubicTo(
+      size.width * .8,
+      size.height * .75,
+      0,
+      size.height * .70,
+      0,
+      size.height / 2,
+    );
+    path.cubicTo(
+      0,
+      size.height * .25,
+      size.width * .8,
+      size.height * .30,
+      size.width,
+      0,
+    );
+    path.lineTo(size.width, size.height);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

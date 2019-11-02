@@ -73,12 +73,15 @@ class _AllTracksState extends State<AllTracks> {
   double getLetterScrollPosition(String letter) {
     double position;
     for (int i = 0; i < _songsData.length; i++) {
-      if (_songsData[i]["artist"].substring(0, 1) == letter) {
-        position = i * _itemSize;
+      if ((double.tryParse(_songsData[i]["artist"].substring(0, 1)) != null) &&
+          letter == "#") {
+        position = 0;
+      } else if (_songsData[i]["artist"].substring(0, 1) == letter) {
+        position = i * _itemSize + 1;
         break;
       }
     }
-    ;
+    print(position);
     return position;
   }
 
