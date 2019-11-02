@@ -26,13 +26,14 @@ class AllTracksSearchIndicator extends StatelessWidget {
               (MediaQuery.of(context).size.height * .575) /
               letters.length,
       right: 0,
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
+      child: IgnorePointer(
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
                     colors: [
@@ -48,23 +49,25 @@ class AllTracksSearchIndicator extends StatelessWidget {
                       blurRadius: 2,
                       spreadRadius: 1,
                     )
-                  ]),
-              child: Center(
-                child: Text(
-                  letter,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white70,
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    letter,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white70,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(width: 15),
-            CustomPaint(
-              painter: IndicatorPainter(),
-              size: Size(40, 150),
-            )
-          ],
+              SizedBox(width: 15),
+              CustomPaint(
+                painter: IndicatorPainter(),
+                size: Size(40, 150),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -84,7 +87,6 @@ class IndicatorPainter extends CustomPainter {
     );
 
     Paint paint = Paint()
-      ..color = Colors.white
       ..style = PaintingStyle.fill
       ..shader = gradient.createShader(
         Rect.fromPoints(
@@ -94,8 +96,7 @@ class IndicatorPainter extends CustomPainter {
             size.height,
           ),
         ),
-      )
-      ..strokeWidth = 1.0;
+      );
 
     Path path = Path();
     path.moveTo(size.width, size.height);

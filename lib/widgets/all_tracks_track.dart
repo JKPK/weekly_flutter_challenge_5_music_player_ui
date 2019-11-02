@@ -26,8 +26,11 @@ class _AllTracksTrackState extends State<AllTracksTrack> {
 
   @override
   void initState() {
-    for (var i = 0; i <14; i++) {
-      tracks.add(VisualizerTrack(math.Random().nextInt(14),math.min(0.5, i/ 13)));
+    for (var i = 0; i < 14; i++) {
+      tracks.add(VisualizerTrack(
+        math.Random().nextInt(14),
+        math.min(0.5, i / 30),
+      ));
     }
     super.initState();
   }
@@ -160,7 +163,9 @@ class VisualizerTrackTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: _isActive ? tileColorBottom.withOpacity(_opacity) : Colors.transparent,
+      color: _isActive
+          ? tileColorBottom.withOpacity(_opacity)
+          : Colors.transparent,
       height: MediaQuery.of(context).size.height * .275 / 52,
       child: null,
     );
