@@ -23,7 +23,6 @@ class _AllTracksState extends State<AllTracks> {
   double _itemSize;
   int _currentItem;
   String _currentLetter = "#";
-  bool _isInit = false;
 
   @override
   void initState() {
@@ -32,17 +31,12 @@ class _AllTracksState extends State<AllTracks> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      _itemSize = MediaQuery.of(context).size.height * .125;
-      _isInit = true;
-    }
-    super.didChangeDependencies();
-  }
-
   void _scrollListener() {
     setCurrentLetter();
+  }
+
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
   }
 
   setCurrentLetter() {
@@ -81,12 +75,13 @@ class _AllTracksState extends State<AllTracks> {
         break;
       }
     }
-    print(position);
     return position;
   }
 
   @override
   Widget build(BuildContext context) {
+    _itemSize = MediaQuery.of(context).size.height * .125;
+
     return StreamBuilder(
       stream: widget.stream,
       initialData: 0.0,
