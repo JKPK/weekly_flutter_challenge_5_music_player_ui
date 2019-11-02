@@ -19,6 +19,18 @@ This challenge is about recreating Kazi Mohammed Erfan's [Music Player UI design
 10. [ClipRect](https://api.flutter.dev/flutter/widgets/ClipRect-class.html) widget.
 11. Streams: [StreamController](https://api.flutter.dev/flutter/dart-async/StreamController-class.html), [StreamSubscription](https://api.flutter.dev/flutter/dart-async/StreamSubscription-class.html) and [StreamBuilder](https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html) classes, more info [here](https://www.didierboelens.com/2018/08/reactive-programming---streams---bloc/).
 12. [ScrollController](https://api.flutter.dev/flutter/widgets/ScrollController-class.html).
+13. Better understanding of [initState and didChangeDependencies](https://medium.com/flutter-community/flutter-lifecycle-for-android-and-ios-developers-8f532307e0c7) methods.
 
 ## Original design
 [![Original design](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/original_design.png?raw=true)](https://www.uplabs.com/posts/free-music-player-ui)
+
+## Challenge result - click to see video
+[![Challenge result](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/challenge_result.gif?raw=true)](https://youtu.be/xGqUwP1Hkd0)
+
+## Youtube link
+https://youtu.be/xGqUwP1Hkd0
+
+## Music used in application:
+http://ccmixter.org/files/Lav/60292
+https://freemusicarchive.org/music/The_Kyoto_Connection/Wake_Up_1957/09_Hachiko_The_Faithtful_Dog
+http://ccmixter.org/files/Loveshadow/59858
