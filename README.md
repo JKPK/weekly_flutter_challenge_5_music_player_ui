@@ -24,7 +24,7 @@ This challenge is about recreating Kazi Mohammed Erfan's [Music Player UI design
 ## Original design
 [![Original design](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/original_design.png?raw=true)](https://www.uplabs.com/posts/free-music-player-ui)
 
-## Challenge result - click to see video
+## Challenge result - click GIF to see video
 [![Challenge result](https://github.com/JKPK/weekly_flutter_challenge_5_music_player_ui/blob/master/challenge_result.gif?raw=true)](https://youtu.be/xGqUwP1Hkd0)
 
 ## Youtube link
