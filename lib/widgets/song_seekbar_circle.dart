@@ -173,7 +173,6 @@ class PlayPauseButton extends StatefulWidget {
 class _PlayPauseButtonState extends State<PlayPauseButton>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  bool _isPlaying = false;
 
   @override
   void initState() {
@@ -190,10 +189,8 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
     Provider.of<PlayerProvider>(context).addListener(() {
       if (Provider.of<PlayerProvider>(context, listen: false).isPlaying) {
         _animationController.forward();
-        _isPlaying = true;
       } else {
         _animationController.reverse();
-        _isPlaying = false;
       }
     });
     return AnimatedIcon(
