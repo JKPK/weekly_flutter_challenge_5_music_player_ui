@@ -125,7 +125,8 @@ class _PlayerPageState extends State<PlayerPage>
                           PlayerRecentPlaylist("Recent Playlist"),
                           Container(
                             height: MediaQuery.of(context).size.height * .1,
-                            color: backgroundDarkColor,
+                            decoration:
+                                BoxDecoration(gradient: secondPageGradient),
                             child: AppTitle("Tracks"),
                           ),
                           Expanded(

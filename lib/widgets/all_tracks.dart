@@ -92,12 +92,14 @@ class _AllTracksState extends State<AllTracks> {
       initialData: 0.0,
       builder: (context, snapshot) {
         return Container(
+          decoration: BoxDecoration(
+            gradient: secondPageGradient,
+          ),
           margin: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * (1.4 - snapshot.data),
           ),
           height: MediaQuery.of(context).size.height * .6,
           width: double.infinity,
-          color: backgroundDarkColor,
           child: Stack(
             overflow: Overflow.visible,
             children: <Widget>[

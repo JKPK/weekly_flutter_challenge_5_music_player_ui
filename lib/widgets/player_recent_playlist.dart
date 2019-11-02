@@ -21,7 +21,10 @@ class PlayerRecentPlaylist extends StatelessWidget {
         horizontal: 25,
         vertical: 15,
       ),
-      color: _darkMode ? backgroundDarkColor : backgroundLightColor,
+      decoration: BoxDecoration(
+        color: _darkMode ? null : backgroundLightColor,
+        gradient: _darkMode ? secondPageGradient : null,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -78,7 +81,7 @@ class RecentPlaylistTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, String> songData =
         Provider.of<PlayerProvider>(context, listen: false)
-            .getSongData(_songId+(_darkMode?3:0));
+            .getSongData(_songId + (_darkMode ? 3 : 0));
 
     return Expanded(
       child: GestureDetector(

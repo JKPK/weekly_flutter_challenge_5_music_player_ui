@@ -13,7 +13,16 @@ const Color tileColorTop = Color(0xFFa26f87);
 const Color tileColorBottom = Color(0x33a26f87);
 const Color splashColor = Color(0xAA916781);
 
-const TextStyle textTitleStyle = TextStyle(
+const LinearGradient secondPageGradient = const LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: [
+    const Color(0xFF5E425E),
+    const Color(0xFF76526D),
+  ],
+);
+
+const TextStyle textTitleStyle = const TextStyle(
   color: textLightColor,
   fontSize: 19,
   fontWeight: FontWeight.w100,
